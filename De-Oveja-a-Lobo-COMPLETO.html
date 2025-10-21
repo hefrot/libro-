@@ -1,197 +1,408 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>De Oveja a Lobo (Libro Completo)</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: #EAEAEA;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #121212;
-        }
-        .chapter {
-            border-top: 4px solid #F39C12;
-            padding-top: 40px;
-            margin-top: 60px;
-        }
-        .header-game {
-            text-align: center;
-            border-bottom: 2px solid #333;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        .header-game h1 {
-            font-size: 2.8em;
-            color: #F39C12;
-            margin: 0;
-            text-shadow: 2px 2px #000;
-        }
-        .section-title {
-            font-size: 2em;
-            color: #3498DB;
-            border-left: 4px solid #3498DB;
-            padding-left: 15px;
-            margin-top: 40px;
-            text-shadow: 1px 1px #000;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 30px auto;
-            border-radius: 8px;
-            border: 3px solid #333;
-        }
-        blockquote {
-            font-style: italic;
-            color: #95a5a6;
-            border-left: 3px solid #3498DB;
-            padding-left: 15px;
-            margin-left: 0;
-        }
-        .mission-box {
-            background-color: #222;
-            border: 2px dashed #F39C12;
-            padding: 20px;
-            text-align: center;
-            margin-top: 40px;
-            border-radius: 8px;
-        }
-        .mission-box h3 {
-            color: #F39C12;
-            margin-top: 0;
-        }
-        .achievement-unlocked {
-            border: 2px solid #27ae60;
-            background-color: #1a3a2a;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #27ae60;
-            margin-top: 30px;
-            border-radius: 8px;
-        }
-        .tip-lobo {
-            background-color: #1f2c38;
-            border-left: 5px solid #3498DB;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>De Oveja a Lobo — Libro Interactivo</title>
+  <meta name="description" content="Libro interactivo gamificado de inversión por Héctor Mena — pasa de oveja a lobo con niveles, misiones y progreso." />
+  <meta property="og:title" content="De Oveja a Lobo — Libro Interactivo" />
+  <meta property="og:description" content="Presiona START y aprende inversión con un libro gamificado." />
+  <meta property="og:type" content="website" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --green:#00ff88; --blue:#00d4ff; --ink:#fff; --muted:rgba(255,255,255,.75);
+      --bg1:#0f0c29; --bg2:#302b63; --bg3:#24243e; --card:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.12);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink); background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.75;
+    }
+    header{ text-align:center; padding:64px 16px 24px; background:linear-gradient(180deg,rgba(0,0,0,.65),transparent)}
+    .title{ font-family:'Press Start 2P',cursive; font-size:2rem; color:var(--green); text-shadow:0 0 18px rgba(0,255,136,.45); margin:0 0 8px}
+    .subtitle{ color:var(--muted); margin:0}
+
+    main{ display:flex; min-height:calc(100% - 140px)}
+    nav{
+      width:300px; padding:16px; border-right:1px solid var(--border); overflow:auto;
+    }
+    nav h2{ font-family:'Press Start 2P',cursive; font-size:.9rem; color:var(--blue); margin:4px 0 18px}
+    nav a{
+      display:block; padding:12px 14px; margin-bottom:8px; color:var(--muted); text-decoration:none;
+      border:1px solid var(--border); border-radius:10px; background:var(--card); transition:.2s;
+    }
+    nav a:hover, nav a.active{ color:var(--ink); border-color:var(--green); box-shadow:0 0 14px rgba(0,255,136,.25); background:rgba(0,255,136,.12)}
+    article{ flex:1; overflow:auto; padding:28px 24px}
+
+    .chapter{ display:none; animation:fade .45s}
+    .chapter.active{ display:block}
+    @keyframes fade{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
+
+    .chapter-title{ font-family:'Press Start 2P',cursive; font-size:1.4rem; color:var(--green); line-height:1.4; margin:0 0 16px}
+    .section-title{ font-weight:800; color:var(--blue); margin:28px 0 12px }
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; margin:16px 0}
+    blockquote{ border-left:3px solid var(--blue); padding-left:14px; color:var(--muted); font-style:italic; margin:18px 0}
+    figure{ margin:18px auto; text-align:center}
+    figure img{ width:100%; max-width:760px; border-radius:10px; border:2px solid rgba(0,255,136,.35)}
+    figcaption{ color:var(--muted); font-size:.95rem; margin-top:6px}
+
+    .achievement{ border:2px solid #27ae60; background:#eafaf1; color:#27ae60; text-align:center; font-weight:700; padding:14px; border-radius:12px}
+    .mission{ border:2px dashed #f39c12; background:#fff3; padding:18px; border-radius:12px; text-align:center}
+
+    @media (max-width:980px){
+      main{ display:block }
+      nav{ width:auto; border-right:none; border-bottom:1px solid var(--border) }
+      article{ padding:20px }
+    }
+    @media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important} }
+    @media print{
+      body{ background:#fff !important; color:#000 !important }
+      nav, header{ display:none !important }
+      article{ padding:0 !important }
+      figure img{ border:none !important }
+    }
+  </style>
 </head>
 <body>
 
-    <div id="portada">
-        <img src="De%20Oveja%20a%20Lobo_%20Aventura%20Pixelada.jpg" alt="Portada del libro De Oveja a Lobo en estilo pixel art">
-    </div>
+<header>
+  <h1 class="title">DE OVEJA A LOBO</h1>
+  <p class="subtitle">Libro interactivo — por Héctor Mena</p>
+</header>
 
-    <div id="prologo" class="chapter">
-        <div class="header-game">
-            <h1>🎮 PRÓLOGO: El Juego del Dinero</h1>
-        </div>
-        <img src="image_f8aa64.jpg" alt="Escena de París en pixel art con la pregunta existencial del autor">
-        <p>París, noviembre de 2017. 11:47 PM...</p>
-        </div>
+<main>
+  <nav id="menu">
+    <h2>Niveles</h2>
+    <a href="#prologo"   data-chapter="prologo">Prólogo: El Juego del Dinero</a>
+    <a href="#nivel0"    data-chapter="nivel0">Nivel 0: Presiona START</a>
+    <a href="#capitulo1" data-chapter="capitulo1">Capítulo 1: Lobos vs. Ovejas</a>
+    <a href="#capitulo2" data-chapter="capitulo2">Capítulo 2: Tu Peor Enemigo</a>
+    <!-- deja el esqueleto para los siguientes capítulos -->
+    <a href="#capitulo3" data-chapter="capitulo3">Capítulo 3: La Trampa del Ego</a>
+    <a href="#capitulo4" data-chapter="capitulo4">Capítulo 4: ¿Qué es una Acción?</a>
+    <a href="#capitulo5" data-chapter="capitulo5">Capítulo 5: El Mapa del Dinero</a>
+    <a href="#capitulo6" data-chapter="capitulo6">Capítulo 6: La Historia en Velas</a>
+  </nav>
 
-    <div id="nivel-0" class="chapter">
-        <div class="header-game">
-            <h1>🎮 INTRODUCCIÓN: Nivel 0 - Presiona START</h1>
-        </div>
-        <img src="image_f83a80.jpg" alt="Jefe Inflación en pixel art enfrentando a una oveja">
-        <p>En México tenemos un dicho: "Camarón que se duerme, se lo lleva la corriente."...</p>
-        </div>
+  <article id="content">
 
-    <div id="capitulo-1" class="chapter">
-        <div class="header-game">
-            <h1>🐑🐺 CAPÍTULO 1: Lobos vs. Ovejas - Elige tu Bando</h1>
-        </div>
-        <img src="image_f832fb.jpg" alt="Pantalla de selección de personaje Oveja vs Lobo">
-        <p>Bienvenido al Nivel 1. Ya entendiste que la inflación es el enemigo invisible...</p>
-        </div>
+    <!-- ================= PRÓLOGO ================= -->
+    <section id="prologo" class="chapter">
+      <h1 class="chapter-title">🎮 PRÓLOGO: El Juego del Dinero</h1>
 
-    <div id="capitulo-2" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 2: Tu Peor Enemigo Eres Tú</h1>
-        </div>
-        <img src="image_f82b7d.jpg" alt="Las tres bestias: Miedo, Avaricia y Ego en pixel art">
-        <p>Bienvenido al Nivel 2. Ya sabes que la batalla principal no es contra el mercado...</p>
-        </div>
+      <p class="card" style="font-style:italic; text-align:center">París, noviembre de 2017. 11:47 PM.</p>
 
-    <div id="capitulo-3" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 3: El Lobo y la Trampa del Ego</h1>
-        </div>
-        <p>Bienvenido al Nivel 3. Has aprendido a identificar al Miedo y la Avaricia...</p>
-        </div>
+      <p>Una amiga me acababa de hacer la pregunta más cara de mi vida:</p>
+      <blockquote>—¿Por qué no te quedas aquí conmigo?</blockquote>
+      <p>Yo tenía 25 años, había viajado por Europa durante meses, y en ese momento, en un pequeño apartamento parisino, me di cuenta de algo que me heló la sangre: <strong>No tenía respuesta.</strong></p>
+      <p>No porque no quisiera quedarme. Sino porque no sabía cómo podría vivir sin estar físicamente trabajando. Esa noche no dormí. No por romance, sino por pánico existencial. Me hice la pregunta que cambiaría todo:</p>
+      <blockquote>“¿Cómo gana dinero la gente que no cambia tiempo por dinero?”</blockquote>
 
-    <div id="capitulo-4" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 4: ¿Qué es una Acción?</h1>
-        </div>
-        <p>Bienvenido al Nivel 4. Has superado el entrenamiento mental...</p>
-        </div>
+      <h2 class="section-title">El Camino del Lobo (O Cómo Perdí Todo... Dos Veces)</h2>
+      <p>Mi historia no es la del genio que invirtió $1,000 y se hizo millonario. Es la del tipo que:</p>
+      <ul>
+        <li>A los 17 años tuvo a su primera hija y no tenía ni para el camión...</li>
+        <li>En la prepa estudiaba electricidad y computación, arreglaba computadoras y hacía instalaciones eléctricas...</li>
+        <li>Usaba un carro prestado de mi tía: feo, viejo, de batallas; pero me llevaba a donde necesitaba.</li>
+      </ul>
 
-    <div id="capitulo-5" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 5: El Mapa del Dinero</h1>
-        </div>
-        <p>Bienvenido al Nivel 5. Ya sabes que una acción es ser dueño de un negocio...</p>
-        </div>
+      <h2 class="section-title">El Café Internet (Construir de la Nada)</h2>
+      <p>En la universidad empecé Derecho y con ayuda de mis padres monté un café internet. Con piezas regaladas armé equipos, hice cableado y red desde cero. Ese café pagó mis estudios y gastos. Abrimos un despacho jurídico arriba; nuestra primera gran victoria: $500,000 pesos (30% para nosotros). Era más de lo que jamás había visto.</p>
 
-    <div id="capitulo-6" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 6: La Historia en Velas</h1>
-        </div>
-        <p>Bienvenido al Nivel 6. Ya sabes leer una vela individual...</p>
-        </div>
+      <h2 class="section-title">El Primer Gran Cheque (Y el Primer Gran Error)</h2>
+      <p>Trabajando en financieras entendí intereses y créditos desde dentro. Mi primer cheque: $36,000 al mes. ¿Qué hice? <strong>Lo gasté.</strong> Kawasaki, casa en la playa, fiestas. Pensaba en qué gastar, no en invertir.</p>
 
-    <div id="capitulo-7" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 7: La Tendencia es Tu Amiga</h1>
-        </div>
-        <p>Bienvenido al Nivel 7. Ya sabes leer velas individuales y patrones básicos...</p>
-        </div>
+      <h2 class="section-title">Estados Unidos: Más Dinero, Más Errores</h2>
+      <p>Me fui a estudiar inglés, trabajé en lo que fuera (mejor pagado que en México). Con un negocio tipo Amazon empezamos a ganar bien. Compras grandes: Toyota, camioneta, otra Kawasaki, Tesla. Accidente, pérdidas. Invertía 5% cuando pude invertir 25%.</p>
 
-    <div id="capitulo-8" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 8: La Regla de Oro (Aprende a Perder)</h1>
-        </div>
-        <p>Bienvenido al Nivel 8. Este es el capítulo que separa a las ovejas de los lobos...</p>
-        </div>
+      <h2 class="section-title">De Oveja a Lobo… y de Regreso a Oveja</h2>
+      <p>En 2023 todo cambió. Malas relaciones, malos negocios, cuentas que desaparecieron. A los 32, empecé de cero. Esta vez con <strong>conocimiento</strong>: 200+ libros, ganancias y pérdidas reales. Entendí algo:</p>
+      <blockquote>No se trata de cuánto ganas. Se trata de cuánto sabes hacer con lo que ganas.</blockquote>
 
-    <div id="capitulo-9" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 9: Encuentra tu Primer 10-Bagger</h1>
-        </div>
-        <p>Bienvenido al Nivel 9. Ya sabes cómo proteger tu capital...</p>
-        </div>
+      <h2 class="section-title">Por Qué Este Libro Existe</h2>
+      <p>Para mis hijas: Kiara, Roseline y Violet. Este es el mapa que me habría ahorrado perderlo todo a los 32. Primero lo escribí para ellas. Ahora también es tuyo.</p>
 
-    <div id="capitulo-10" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 10: Construyendo tu Primer Portafolio</h1>
-        </div>
-        <p>Bienvenido al Nivel 10. Ya sabes: Cómo controlar tus emociones...</p>
-        </div>
+      <div class="card">
+        <h2 class="section-title" style="margin-top:0">El Juego Que Nadie Te Enseñó a Jugar</h2>
+        <p>Aquí no hay teoría para presumir, ni fórmulas mágicas. Hay verdad cruda, errores reales y un sistema paso a paso para pasar de oveja a lobo.</p>
+        <ul>
+          <li>✅ Verdad cruda (bicicleta prestada → despacho → caídas).</li>
+          <li>✅ Lecciones de perderlo todo (dos veces) y levantarte.</li>
+          <li>✅ Sistema gamificado en 12 niveles.</li>
+        </ul>
+      </div>
 
-    <div id="capitulo-11" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 11: Tu Diario de Trading</h1>
-        </div>
-        <p>Bienvenido al Nivel 11. Ya tienes todas las herramientas...</p>
-        </div>
+      <div class="card">
+        <h3 class="section-title" style="margin-top:0">La Única Regla</h3>
+        <p>En este juego no hay pausa. Cada día que el dinero se queda quieto, la inflación se lo come. Y el juego se divide en dos caminos:</p>
+        <p><strong>🐑 Oveja:</strong> Se queja, guarda donde pierde valor.</p>
+        <p><strong>🐺 Lobo:</strong> Hace crecer su dinero más rápido que los precios.</p>
+      </div>
 
-    <div id="capitulo-12" class="chapter">
-        <div class="header-game">
-            <h1>🎮 CAPÍTULO 12: Nivel Completado</h1>
-        </div>
-        <p>Bienvenido al Nivel Final. Has llegado hasta aquí...</p>
-        </div>
+      <div class="mission">
+        <h3>Tu Misión</h3>
+        <p>Este libro tiene 12 niveles. Al final, serás un lobo estratégico. No importa si empiezas con $500 o $50,000: si yo pude después de perderlo todo, tú también.</p>
+        <p style="font-weight:700">Presiona START 🐺⚔️</p>
+      </div>
+    </section>
 
+    <!-- ================= NIVEL 0 ================= -->
+    <section id="nivel0" class="chapter">
+      <h1 class="chapter-title">🎮 INTRODUCCIÓN: Nivel 0 — Presiona START</h1>
+
+      <p>“Camarón que se duerme, se lo lleva la corriente.” Con el dinero pasa igual: si se queda quieto, la inflación se lo lleva. Lo sientes cada día en el bolsillo.</p>
+
+      <h2 class="section-title">El Enemigo Invisible</h2>
+      <p>La inflación roba sin hacer ruido: tu dinero vale menos. No es obvio hasta que vuelves al OXXO y con los mismos $100 compras mucho menos.</p>
+
+      <div class="card">
+        <h3 class="section-title" style="margin-top:0">Ejemplos que duelen</h3>
+        <ul>
+          <li>📊 <strong>Gansito:</strong> 2000: $2.50 → 2025: ~$20</li>
+          <li>📊 <strong>Sabritas chicas:</strong> 2000: $3.50 → 2025: ~$20</li>
+          <li>📊 <strong>Gasolina (litro):</strong> 2000: $5.50 → 2025: >$24</li>
+          <li>📊 <strong>Coca-Cola 600ml:</strong> 2000: $5 → 2025: ~$18</li>
+        </ul>
+      </div>
+
+      <figure>
+        <img src="IMG/meme-this-is-fine.png" alt="Meme: This is fine" loading="lazy" decoding="async">
+        <figcaption>“Todo bien”… mientras el poder de compra arde.</figcaption>
+      </figure>
+
+      <h2 class="section-title">El Juego Que No Sabías Que Jugabas</h2>
+      <p><strong>El dinero es como un pez: si no se mueve, se pudre.</strong> Dejarlo al 0.5–1% cuando la inflación es 4–6% = perder poder de compra.</p>
+
+      <div class="card">
+        <h4>Imagina esto</h4>
+        <p>Tienes $100,000 en el banco. Inflación 5%. Interés 1%.</p>
+        <p><strong>Pérdida neta: $4,000</strong> de poder de compra en un año (≈ 200 Gansitos).</p>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title" style="margin-top:0">El Gran Divide</h3>
+        <p><strong>🐑 Oveja:</strong> “Invertir es muy riesgoso, mejor no le muevo”. Trabaja más duro para sostener lo mismo.</p>
+        <p><strong>🐺 Lobo:</strong> Hace que el dinero trabaje. No más duro: más inteligente.</p>
+      </div>
+
+      <h2 class="section-title">La Matemática Brutal</h2>
+      <p>La diferencia entre oveja y lobo en 20 años con el mismo ahorro puede ser <strong>$480,000</strong> o más. La clave: vencer inflación y reinvertir.</p>
+
+      <p class="achievement">🏆 Logro desbloqueado: “El Despertar” — Ahora sabes que ahorrar sin invertir te hace perder cada año.</p>
+
+      <div class="mission">
+        <h3>🎯 MISIÓN DEL NIVEL 0</h3>
+        <p>Piensa en 3 cosas que comprabas hace 10–15 años y compara su precio con el de HOY. Siente la inflación en carne propia.</p>
+      </div>
+
+      <p style="text-align:center; font-weight:700">Nivel 0 completado. Siguiente: Capítulo 1 — Lobos vs. Ovejas 🐺</p>
+    </section>
+
+    <!-- ================= CAPÍTULO 1 ================= -->
+    <section id="capitulo1" class="chapter">
+      <h1 class="chapter-title">🐑🐺 CAPÍTULO 1: Lobos vs. Ovejas — Elige tu Bando</h1>
+
+      <p>Ya entendiste que la inflación es el enemigo invisible. Ahora: <strong>tu peor enemigo no está en el mercado, está en el espejo.</strong> En este bosque solo hay dos especies: ovejas y lobos. La diferencia es la mentalidad.</p>
+
+      <div class="card">
+        <h2 class="section-title" style="margin-top:0">🐑 La Oveja: presa de sus emociones</h2>
+        <ol>
+          <li><strong>Compra por FOMO:</strong> entra caro.</li>
+          <li><strong>Vende por pánico:</strong> sale barato.</li>
+          <li><strong>Busca “la fórmula secreta”:</strong> sigue gurús.</li>
+          <li><strong>Solo corto plazo:</strong> quiere duplicar en 3 meses.</li>
+          <li><strong>Sin plan:</strong> compra “por sentir”.</li>
+        </ol>
+        <figure>
+          <img src="IMG/meme-drake.png" alt="Meme Drake: comprar bajo/vender alto vs hacer lo contrario" loading="lazy" decoding="async">
+          <figcaption>La ironía más cara del mercado.</figcaption>
+        </figure>
+        <div class="card" style="background:#fbeee6; border-left:5px solid #e67e22">
+          <h4>Historia: María</h4>
+          <p>Entró a GameStop por FOMO con $10,000 en el pico. Cayó 60% y vendió: perdió $6,000. Conclusión errónea: “Invertir es una estafa”. Verdad: jugó como oveja.</p>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center; font-weight:700">
+        📊 Estudio DALBAR: 30 años — S&P 500 ≈ 10%/año; inversionista promedio ≈ 4%/año. <br>El 6% faltante es “impuesto emocional”.
+      </div>
+
+      <div class="card">
+        <h2 class="section-title" style="margin-top:0">🐺 El Lobo: cazador estratégico</h2>
+        <ol>
+          <li><strong>Análisis > emoción:</strong> negocio y momento.</li>
+          <li><strong>Reglas > miedo:</strong> objetivo y stop definidos antes de entrar.</li>
+          <li><strong>Aprendizaje continuo:</strong> diario de trading.</li>
+        </ol>
+        <div class="card" style="background:#eaf2f8; border-left:5px solid #3498db">
+          <h4>Historia: Roberto</h4>
+          <p>Investigó GameStop y decidió no comprar. No ganó… pero no perdió. Venció al FOMO.</p>
+        </div>
+        <blockquote>En marzo 2009, con el mundo en llamas, las ovejas vendían. Los lobos compraban calidad a precio de remate. Diez años después, adivina quién multiplicó su capital.</blockquote>
+      </div>
+
+      <div class="card">
+        <h3>🧪 Mini-test: ¿Qué tan oveja eres?</h3>
+        <p>Cuenta tus “Sí”: 0–1 Lobo; 2–3 Transición; 4–5 Oveja (pero ya estás cambiando).</p>
+        <ul style="margin-top:8px">
+          <li>¿Has comprado “porque todos hablan”? </li>
+          <li>¿Has vendido en pánico?</li>
+          <li>¿Sigues tips de redes?</li>
+          <li>¿Ves tu portafolio a diario con estrés?</li>
+          <li>¿Cambias de estrategia cada rato?</li>
+        </ul>
+      </div>
+
+      <p class="achievement">🏆 Logro: “Observador Consciente” — Tus emociones pueden costar más que una caída del mercado.</p>
+
+      <div class="mission">
+        <h3>🎯 MISIÓN DEL NIVEL 1</h3>
+        <p>Piensa en tu última mala decisión financiera. Asígnale una emoción: <strong>MIEDO, AVARICIA o EGO</strong>. Escríbelo. Ver el patrón es el primer paso para romperlo.</p>
+      </div>
+
+      <p style="text-align:center; font-weight:700">Nivel 1 completado. Siguiente: Capítulo 2 — El Triángulo del Éxito 🐺</p>
+    </section>
+
+    <!-- ================= CAPÍTULO 2 ================= -->
+    <section id="capitulo2" class="chapter">
+      <h1 class="chapter-title">🧠 CAPÍTULO 2: Tu Peor Enemigo Eres Tú</h1>
+
+      <p>El 90% del éxito no es encontrar “la acción secreta”, es dominar tu mente.</p>
+
+      <div class="card" style="background:#f9f3f2; border:1px solid #c0392b">
+        <h3>🔺 Las 3 M del Éxito (Triángulo del Lobo)</h3>
+        <p><strong>1) MENTE</strong> (psicología) — tu base. <br>
+           <strong>2) MÉTODO</strong> (estrategia) — tu mapa. <br>
+           <strong>3) DINERO</strong> (riesgo) — tu escudo.</p>
+        <p>El error común: 99% buscando método, 1% trabajando la mente. Es tener Ferrari con conductor borracho.</p>
+      </div>
+
+      <h2 class="section-title">🥊 Domando a las Tres Bestias</h2>
+
+      <div class="card" style="background:#eaf2f8">
+        <h4>🐻 Miedo</h4>
+        <p>Voz: “¡Vende ya!” — Ataca en caídas. Costo: vender en el peor momento.</p>
+      </div>
+      <div class="card" style="background:#eafaf1">
+        <h4>🐉 Avaricia</h4>
+        <p>Voz: “¡Entra YA o te lo pierdes!” — Ataca en subidas virales. Costo: comprar el pico.</p>
+      </div>
+      <div class="card" style="background:#fdf2e9">
+        <h4>👑 Ego (la peor)</h4>
+        <p>Voz: “Yo tengo razón.” — Ataca tras rachas o cuando va mal. Costo: subir riesgo, no cortar pérdidas.</p>
+      </div>
+
+      <figure>
+        <img src="IMG/meme-two-panels-ego.png" alt="Meme dos paneles: 'soy un dios del trading' / 'no salió como pensaba'" loading="lazy" decoding="async">
+        <figcaption>El mercado es especialista en bajarte del pedestal.</figcaption>
+      </figure>
+
+      <div class="card">
+        <h4>Confesión personal</h4>
+        <p>Tras 8 trades ganadores, subí 3× el tamaño. Perdí 40% en dos semanas. El mercado te recuerda que eres humano.</p>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title" style="margin-top:0">🗺️ El Método: Tu Mapa</h2>
+        <p>Antes de comprar, responde:</p>
+        <ol>
+          <li><strong>¿Qué</strong> voy a comprar?</li>
+          <li><strong>¿Por qué</strong> lo compro?</li>
+          <li><strong>¿Cuándo</strong> entro?</li>
+          <li><strong>¿Cuándo</strong> salgo si gano?</li>
+          <li><strong>¿Cuándo</strong> salgo si pierdo? (stop)</li>
+        </ol>
+        <p><strong>Si no puedes responder, NO compres.</strong></p>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title" style="margin-top:0">💰 El Dinero: Puntos de Vida</h2>
+        <p>Tu capital es tu barra de vida. Prioridad #1 del lobo: <strong>perder poco</strong>.</p>
+        <h4>🧮 Matemática de la Ruina</h4>
+        <table style="width:100%; border-collapse:collapse">
+          <tr><th style="border:1px solid #ddd; padding:8px; background:#e74c3c; color:#fff">Si pierdes…</th><th style="border:1px solid #ddd; padding:8px; background:#e74c3c; color:#fff">Necesitas ganar…</th><th style="border:1px solid #ddd; padding:8px; background:#e74c3c; color:#fff">Para volver a cero</th></tr>
+          <tr><td style="border:1px solid #ddd; padding:8px">10%</td><td style="border:1px solid #ddd; padding:8px">11%</td><td style="border:1px solid #ddd; padding:8px">Fácil</td></tr>
+          <tr><td style="border:1px solid #ddd; padding:8px">20%</td><td style="border:1px solid #ddd; padding:8px">25%</td><td style="border:1px solid #ddd; padding:8px">Manejable</td></tr>
+          <tr><td style="border:1px solid #ddd; padding:8px">30%</td><td style="border:1px solid #ddd; padding:8px">43%</td><td style="border:1px solid #ddd; padding:8px">Difícil</td></tr>
+          <tr><td style="border:1px solid #ddd; padding:8px">50%</td><td style="border:1px solid #ddd; padding:8px"><strong>100%</strong></td><td style="border:1px solid #ddd; padding:8px">Casi imposible</td></tr>
+          <tr><td style="border:1px solid #ddd; padding:8px">75%</td><td style="border:1px solid #ddd; padding:8px"><strong>300%</strong></td><td style="border:1px solid #ddd; padding:8px">Game Over</td></tr>
+        </table>
+        <figure>
+          <img src="IMG/meme-math-lady.png" alt="Meme de la señora con cálculos (confusión matemática)" loading="lazy" decoding="async">
+          <figcaption>La aritmética no perdona.</figcaption>
+        </figure>
+        <h4>🛡️ Regla de Oro</h4>
+        <p><strong>Nunca arriesgues más del 1–2% del capital total en una sola operación.</strong></p>
+      </div>
+
+      <p style="text-align:center; font-weight:700">Nivel 2 completado. Siguiente: Capítulo 3 — El Lobo y la Trampa del Ego 🐺</p>
+    </section>
+
+    <!-- Esqueleto vacío para próximos -->
+    <section id="capitulo3" class="chapter"><h1 class="chapter-title">Capítulo 3 (próximamente)</h1></section>
+    <section id="capitulo4" class="chapter"><h1 class="chapter-title">Capítulo 4 (próximamente)</h1></section>
+    <section id="capitulo5" class="chapter"><h1 class="chapter-title">Capítulo 5 (próximamente)</h1></section>
+    <section id="capitulo6" class="chapter"><h1 class="chapter-title">Capítulo 6 (próximamente)</h1></section>
+
+  </article>
+</main>
+
+<script>
+  const KEY = 'cis.oveja_lobo.last';
+  const menu = document.getElementById('menu');
+  const content = document.getElementById('content');
+  const links = Array.from(menu.querySelectorAll('a'));
+
+  function openChapter(id){
+    // ocultar y desactivar
+    content.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+    links.forEach(a => { a.classList.remove('active'); a.removeAttribute('aria-current'); });
+
+    // mostrar capítulo
+    const el = document.getElementById(id);
+    const link = menu.querySelector(`[data-chapter="${id}"]`);
+    if (el) { el.classList.add('active'); content.scrollTop = 0; }
+    if (link) { link.classList.add('active'); link.setAttribute('aria-current','page'); }
+
+    localStorage.setItem(KEY, id);
+  }
+
+  // navegación del menú (delegación robusta)
+  menu.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    e.preventDefault();
+    const id = a.getAttribute('data-chapter');
+    history.pushState(null, '', `#${id}`);
+    openChapter(id);
+  });
+
+  // historial / hash
+  window.addEventListener('popstate', () => {
+    const id = location.hash.replace('#','') || 'prologo';
+    openChapter(id);
+  });
+
+  // inicio
+  const initial = location.hash.replace('#','') || localStorage.getItem(KEY) || 'prologo';
+  openChapter(initial);
+  history.replaceState(null, '', `#${initial}`);
+</script>
+
+<!--
+IMÁGENES:
+- Reemplaza rutas IMG/*.png por tus archivos reales, o sube a tu hosting/CDN.
+- Si quieres todo offline, pega data-URIs (base64) en los src.
+SUGERENCIAS:
+- portada: portada-press-start.png
+- prologo-paris: paris-pixel.png
+- nivel0-inflacion: boss-inflation.png
+- elige-camino: select-sheep-wolf.png
+- tres-bestias: three-beasts.png
+- memes: this-is-fine/drake/math-lady/ego-two-panels
+-->
 </body>
 </html>
